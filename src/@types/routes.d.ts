@@ -1,4 +1,4 @@
-import { TDetailPostos } from '@/hooks/fetchs/schemas';
+import { TDetailPostos } from '@/hooks/user/fetchs/schemas';
 
 type TCadastro = {
   type: 'search' | 'extra_cash' | 'businnes';

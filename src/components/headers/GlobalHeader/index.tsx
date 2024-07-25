@@ -15,7 +15,7 @@ export function GlobalHeader(props: any) {
   const navigation = useNavigation();
   return (
     <S.Container>
-      <LogoSvg width={100} height={60} />
+      <LogoSvg size={160} />
 
       <HStack alignItems="center" space={4}>
         <S.title>GlobalHeader</S.title>

@@ -1,21 +1,12 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { OneSignal } from 'react-native-onesignal';
+import React, { ReactNode, createContext, useContext, useState } from 'react';
 
-import { useToast } from 'native-base';
-
-import { UseFatch } from '@/hooks/fetchs';
-import { TLogin } from '@/hooks/fetchs/schemas';
-import { IUser } from '@/hooks/fetchs/types';
-import * as mutation from '@/hooks/mutations';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useGetStorage, useSaveLocal } from '@/hooks/storage/mutation';
+import { UserFetch } from '@/hooks/user/fetchs';
+import { IUser } from '@/hooks/user/interface';
+import { useLogin } from '@/hooks/user/mutation';
+import { TLogin } from '@/hooks/user/types';
+import { api } from '@/services/api';
 // import { OneSignal } from 'react-native-onesignal';
 
 interface AuthProviderProps {
@@ -25,94 +16,100 @@ interface AuthProviderProps {
 interface AuthContextData {
   user: IUser | null;
   loading: boolean;
-  updateUser: (input: IUser) => void;
-  isShowChangeAccount: boolean;
-  setIsShowChangeAccount: (value: boolean) => void;
-  route: number;
-  setRoute: (value: number) => void;
-  info: InfoInterface | null;
-  setInfo: (value: InfoInterface | null) => void;
+  signIn: (value: TLogin) => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
-const fetch = new UseFatch();
+const fetch = new UserFetch();
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const { reset } = useNavigation();
-  const { isLoading, mutateAsync: login, data: response } = mutation.login();
-
-  const toast = useToast();
+  const { isLoading, mutateAsync: loginMutation } = useLogin();
+  const getToken = useGetStorage();
+  const saveStorage = useSaveLocal();
 
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(false);
   const [route, setRoute] = useState(3);
 
-  const updateUser = React.useCallback(async (input: IUser) => {
-    await AsyncStorage.setItem('@megabem:user', JSON.stringify(input));
+  // const updateUser = React.useCallback(async (input: IUser) => {
+  //   await AsyncStorage.setItem('@megabem:user', JSON.stringify(input));
 
-    setUser(input);
-  }, []);
+  //   setUser(input);
+  // }, []);
 
-  useEffect(() => {
-    async function loadStorageData() {
+  const loadUser = React.useCallback(async () => {
+    setLoading(true);
+    const token = await getToken.mutateAsync('treepy@token');
+    if (token) {
+      const data = await fetch.userByID();
+      setUser(data.user);
+    }
+    setLoading(false);
+  }, [getToken]);
+
+  React.useEffect(() => {
+    if (isLoading || getToken.isLoading || saveStorage.isLoading) {
       setLoading(true);
-      const storageUser = await AsyncStorage.getItem('@megabem:user');
-      const storageToken = await AsyncStorage.getItem('@megabem:token');
-
-      if (storageUser && storageToken) {
-        setUser(JSON.parse(storageUser));
-        setLoading(false);
-      } else {
-        setLoading(false);
-      }
     }
 
-    loadStorageData();
+    setLoading(false);
+  }, [getToken.isLoading, isLoading, saveStorage.isLoading]);
+
+  React.useEffect(() => {
+    loadUser();
   }, []);
+
+  // useEffect(() => {
+  //   async function loadStorageData() {
+  //     setLoading(true);
+  //     const storageUser = await AsyncStorage.getItem('@megabem:user');
+  //     const storageToken = await AsyncStorage.getItem('@megabem:token');
+
+  //     if (storageUser && storageToken) {
+  //       setUser(JSON.parse(storageUser));
+  //       setLoading(false);
+  //     } else {
+  //       setLoading(false);
+  //     }
+  //   }
+
+  //   loadStorageData();
+  // }, []);
 
   const signIn = React.useCallback(async (input: TLogin) => {
-    const auth = (await fetch.signIn(input)) as IUser;
-    console.log(auth.cpfCnpj);
-    OneSignal.User.addTag('user', auth.cpfCnpj);
+    const auth = await loginMutation(input);
 
-    setUser(auth);
-    await AsyncStorage.setItem(
-      '@megabem:token',
-      JSON.stringify(auth.accessToken),
-    );
-    await AsyncStorage.setItem('@megabem:user', JSON.stringify(auth));
+    await saveStorage.mutateAsync({ key: 'treepy@token', value: auth.token });
+    api.defaults.headers.common.Authorization = `Bearer ${auth.token}`;
+    loadUser();
+
+    // OneSignal.User.addTag('user', auth.cpfCnpj);
   }, []);
 
-  function signOut() {
-    setLoading(true);
-    OneSignal.User.removeTag('user');
+  // function signOut() {
+  //   setLoading(true);
+  //   OneSignal.User.removeTag('user');
 
-    // OneSignal.User.removeTag('userId');
-    const localAuth = AsyncStorage.getItem('megabem@local-auth').then(h =>
-      h ? JSON.parse(h) : null,
-    );
-    AsyncStorage.clear().then(() => {
-      setUser(null);
-    });
+  //   // OneSignal.User.removeTag('userId');
+  //   const localAuth = AsyncStorage.getItem('megabem@local-auth').then(h =>
+  //     h ? JSON.parse(h) : null,
+  //   );
+  //   AsyncStorage.clear().then(() => {
+  //     setUser(null);
+  //   });
 
-    localAuth.then(async h => {
-      await AsyncStorage.setItem('megabem@local-auth', JSON.stringify(h));
-    });
-    setLoading(false);
-  }
+  //   localAuth.then(async h => {
+  //     await AsyncStorage.setItem('megabem@local-auth', JSON.stringify(h));
+  //   });
+  //   setLoading(false);
+  // }
 
   return (
     <AuthContext.Provider
       value={{
-        updateUser,
         signIn,
-        signed: !!user,
-        route,
-        setRoute,
         user,
-        setUser,
         loading,
-        signOut,
       }}
     >
       {children}

@@ -5,6 +5,8 @@ import { PieChart } from 'react-native-gifted-charts';
 import { Box, HStack } from 'native-base';
 
 import { MetaSvg } from '@/assets/svgs/meta';
+import { Loading } from '@/components/Loading';
+import { useMetricas } from '@/hooks/user/querys';
 import { _title } from '@/styles/sizes';
 import { color } from '@/styles/theme';
 
@@ -25,6 +27,11 @@ const data = [
 ];
 
 export function MetaChart() {
+  const { data: metrica, isLoading } = useMetricas();
+
+  if (isLoading) {
+    <Loading />;
+  }
   return (
     <S.Container>
       <HStack alignItems="center" justifyContent="space-between">
@@ -34,7 +41,7 @@ export function MetaChart() {
             <S.title style={{ fontFamily: 'light' }}>Meta</S.title>
           </HStack>
           <S.title style={{ fontFamily: 'black', fontSize: _title + 8 }}>
-            1000
+            {metrica?.meta}
           </S.title>
           <S.sub>TreepyCashes</S.sub>
           <S.text>por ano</S.text>
@@ -49,7 +56,7 @@ export function MetaChart() {
           sectionAutoFocus
           centerLabelComponent={() => (
             <S.text style={{ fontFamily: 'light', fontSize: _title }}>
-              50%
+              {metrica?.porcentMeta}
             </S.text>
           )}
         />

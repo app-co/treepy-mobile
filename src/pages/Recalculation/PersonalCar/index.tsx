@@ -49,9 +49,10 @@ interface I {
   goBack: () => void;
   setItem: (item: IITem) => void;
   getItem: IVeiculoProps[];
+  next: () => void;
 }
 
-export function PersonalCar({ goBack, setItem, getItem }: I) {
+export function PersonalCar({ goBack, setItem, getItem, next }: I) {
   const handleNext = React.useCallback(async () => { }, []);
 
   const [saveItem, setSaveItem] = React.useState<IVeiculoProps[]>(getItem);
@@ -66,11 +67,11 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
   const [openBuildModal, setOpenBuildModal] = React.useState<boolean>(false);
 
   const handleCancel = React.useCallback(async () => {
-    setCar('');
-    setGas('');
-    setPower('');
-    setModel('');
-    setTypeHiGas('');
+    setCar('0');
+    setGas('0');
+    setPower('0');
+    setModel('0');
+    setTypeHiGas('0');
     setByStep(1);
     setOpenBuildModal(false);
   }, []);
@@ -85,8 +86,6 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
       km,
     });
 
-    setOpenBuildModal(false);
-    handleCancel();
     const item = [...saveItem, build];
 
     const value = item.reduce((ac, i) => ac + i.co2, 0);
@@ -98,7 +97,9 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
 
     setSaveItem(item);
     setItem(data);
-  }, [car, gas, handleCancel, km, model, power, saveItem, setItem, typeHiGas]);
+    handleCancel();
+    // setOpenBuildModal(false);
+  }, [car, gas, km, model, power, saveItem, typeHiGas]);
 
   const removeItem = useCallback(
     (id: number) => {
@@ -119,7 +120,13 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
     [saveItem, setItem],
   );
 
-  console.log(car);
+  const item = saveItem.map(h => {
+    return {
+      veiculo: h.Meio_de_transporte,
+      quilometragem: h.Quilometragem,
+      id: h.id,
+    };
+  });
 
   return (
     <S.Container>
@@ -128,7 +135,7 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
         isOpen={openBuildModal}
         hideDragIndicator
       >
-        <Box w="full" p={10} h={hightPercent('50')} bg={color.green[200]}>
+        <Box w="full" p={10} h={hightPercent('50')} bg={color.green[100]}>
           <Center w="100%">
             <S.text>Selecione seu tranporte individual</S.text>
 
@@ -193,6 +200,7 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
                   <Box>
                     <Input
                       label="KM"
+                      keyboardType="numeric"
                       onChangeText={setKm}
                       placeholder="digite aqui o valor"
                       value={_toPtBRNumber(_toNumber(km))}
@@ -206,6 +214,7 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
                   <S.text>Digite o Km mensal</S.text>
                   <Box>
                     <Input
+                      keyboardType="numeric"
                       label="KM"
                       onChangeText={setKm}
                       value={_toPtBRNumber(_toNumber(km))}
@@ -216,25 +225,79 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
               )}
             </Box>
 
-            <HStack space={8} mt={12}>
-              <Box flex={1}>
-                <Button
-                  onPress={handleCancel}
-                  title="Cancelar"
-                  styleType="border"
-                />
-              </Box>
-              <Box flex={1}>
-                <Button
-                  onPress={() => setByStep(byStep + 1)}
-                  title="Proxio"
-                  styleType="light"
-                />
-              </Box>
-            </HStack>
+            {byStep === 1 && (
+              <HStack mt={5} space={4}>
+                <Box flex={1}>
+                  <Button
+                    title="Cancelar"
+                    styleType="border"
+                    onPress={() => setOpenBuildModal(false)}
+                  />
+                </Box>
+
+                <Box flex={1}>
+                  <Button
+                    title="Próximo"
+                    onPress={() => setByStep(byStep + 1)}
+                  />
+                </Box>
+              </HStack>
+            )}
+
+            {byStep >= 2 && byStep <= 3 && car <= String(2) && (
+              <HStack mt={5} space={4}>
+                <Box flex={1}>
+                  <Button
+                    title="Cancelar"
+                    styleType="border"
+                    onPress={handleCancel}
+                  />
+                </Box>
+
+                <Box flex={1}>
+                  <Button
+                    title="Próximo"
+                    onPress={() => setByStep(byStep + 1)}
+                  />
+                </Box>
+              </HStack>
+            )}
+
+            {byStep === 4 && car <= String(2) && (
+              <HStack mt={5} space={4}>
+                <Box flex={1}>
+                  <Button
+                    title="Cancelar"
+                    styleType="border"
+                    onPress={handleCancel}
+                  />
+                </Box>
+
+                <Box flex={1}>
+                  <Button title="Salvar" onPress={handleAddItem} />
+                </Box>
+              </HStack>
+            )}
+
+            {byStep >= 2 && byStep <= 3 && car > String(2) && (
+              <HStack mt={5} space={4}>
+                <Box flex={1}>
+                  <Button
+                    title="Cancelar"
+                    styleType="border"
+                    onPress={handleCancel}
+                  />
+                </Box>
+
+                <Box flex={1}>
+                  <Button title="Salvar" onPress={handleAddItem} />
+                </Box>
+              </HStack>
+            )}
           </Center>
         </Box>
       </Actionsheet>
+
       <Center mb={4}>
         <S.title style={{ fontFamily: 'trin' }}>Utilização de </S.title>
         <S.title style={{ marginTop: -8 }}>Transporte Individual.</S.title>
@@ -255,14 +318,14 @@ export function PersonalCar({ goBack, setItem, getItem }: I) {
         styleType="border"
       />
 
-      <Table />
+      <Table item={item} excluir={h => removeItem(h)} />
 
       <HStack space={8} mt={4}>
         <Box flex={1}>
           <Button onPress={goBack} title="Voltar" styleType="border" />
         </Box>
         <Box flex={1}>
-          <Button onPress={handleNext} title="Proxio" styleType="light" />
+          <Button onPress={next} title="Proxio" styleType="light" />
         </Box>
       </HStack>
     </S.Container>

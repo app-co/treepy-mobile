@@ -160,9 +160,9 @@ export function Recalculation() {
     <PersonalCar
       getItem={state.personalTransport.item}
       goBack={() => changeStep(currentStep - 1)}
+      next={() => changeStep(currentStep + 1)}
       setItem={h => {
         dispatch({ step: 2, payload: h });
-        changeStep(currentStep + 1);
       }}
     />,
     <PublicCar
@@ -170,11 +170,18 @@ export function Recalculation() {
       getItem={state.globalTransport.item}
       setItemC={h => {
         dispatch({ step: 3, payload: h });
-        changeStep(currentStep + 1);
       }}
+      next={() => changeStep(currentStep + 1)}
     />,
-    <Food />,
-    <Total />,
+    <Food
+      getItem={state.food}
+      setItem={h => {
+        dispatch({ step: 4, payload: h });
+      }}
+      goBack={() => changeStep(currentStep - 1)}
+      next={() => changeStep(currentStep + 1)}
+    />,
+    <Total item={state} />,
   ];
 
   const { changeStep, currentComponent, currentStep, lastStep } = useStepByStep(

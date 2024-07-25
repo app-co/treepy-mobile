@@ -155,26 +155,30 @@ export function buildPersonalTransport({
   gasHibrido,
   km,
 }: T) {
-  const carBuild = veiculosP.filter(h => h.Meio_de_transporte === car);
+  const formatedCar = typeVeiculos.find(h => h.value === car);
+  const combustivel = typeGas.find(h => h.value === gas);
+
+  const carBuild = veiculosP.filter(
+    h => h.Meio_de_transporte === formatedCar?.label,
+  );
   const buildCar = carBuild;
 
-  const carSelct =
-    buildCar.find(h => {
-      if (
-        h.Combustível_Tipo.includes(gas) &&
-        h.Combustível.includes(gasHibrido) &&
-        h.Modelo.includes(modelo) &&
-        h.Potência_do_motor.includes(power)
-      ) {
-        return h;
-      }
-      return null;
-    }) ?? ([] as any);
+  const carSelct = buildCar.find(h => {
+    if (
+      h.Combustível_Tipo.includes(combustivel?.label) &&
+      h.Combustível.includes(gasHibrido) &&
+      h.Modelo.includes(modelo) &&
+      h.Potência_do_motor.includes(power)
+    ) {
+      return h;
+    }
+    return null;
+  });
 
   const k = String(_toNumber(km));
   const kmField = k.length <= 2 ? _toNumber(km) : _toNumber(km) / 100;
 
-  const co2 = (Number(kmField) * carSelct!.co2) / 1000 ?? 0;
+  const co2 = (Number(kmField) * carSelct?.co2) / 1000 ?? 0;
 
   const kmf = Number(_toNumber(km));
 

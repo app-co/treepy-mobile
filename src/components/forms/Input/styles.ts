@@ -46,7 +46,7 @@ export const title = styled.Text`
   color: ${color.gray[200]};
   font-family: 'regular';
   font-size: ${_text}px;
-  margin-left: 20;
+  margin-left: 20px;
 `;
 
 export const input = styled(TextInput) <{ isFilled: boolean }>`

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQueryClient } from 'react-query';
 
-import { UseFatch } from '../fetchs';
+import { UseFatch } from '../user';
 
 const fetch = new UseFatch();
 

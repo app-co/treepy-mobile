@@ -1,12 +1,13 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
 import { ClipPath, Defs, G, Path, Rect, Svg } from 'react-native-svg';
 
 interface I {
-  width?: number;
-  height?: number;
+  size?: number;
 }
-export function LogoSvg({ width = 230, height = 110 }: I) {
+export function LogoSvg({ size = 230 }: I) {
   return (
-    <Svg width={width} height={height} viewBox="0, 0 330 130" fill="none">
+    <Svg width={size} height={size - 110} viewBox="0, 0 330 130" fill="none">
       <G clip-path="url(#clip0_92_571)">
         <Path
           d="M55.1309 77.0521C55.1309 62.4509 63.8886 55.4966 76.7344 55.4966C89.5801 55.4966 98.2613 62.451 98.2613 77.2327V77.5187H86.5026V77.0371C86.5026 69.1946 82.5065 66.3647 76.7344 66.3647C70.9622 66.3647 66.9661 69.2096 66.9661 77.0521V105.171H55.1309V77.0521Z"

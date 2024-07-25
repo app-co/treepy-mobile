@@ -14,41 +14,42 @@ export type TTypeTransport =
 
 export const optionsTransport = [
   {
-    field: 'Táxi',
+    label: 'Táxi',
     value: '1',
   },
   {
-    field: 'Metrô',
+    label: 'Metrô',
     value: '2',
   },
   {
-    field: 'Trem urbano',
+    label: 'Trem urbano',
     value: '3',
   },
   {
-    field: 'Ônibus municipal',
+    label: 'Ônibus municipal',
     value: '4',
   },
   {
-    field: 'Ônibus de viagem',
+    label: 'Ônibus de viagem',
     value: '5',
   },
   {
-    field: 'Balsa de passageiros',
+    label: 'Balsa de passageiros',
     value: '6',
   },
   {
-    field: 'Balsa de veículos',
+    label: 'Balsa de veículos',
     value: '7',
   },
   {
-    field: 'Balsa de veículos e passageiros',
+    label: 'Balsa de veículos e passageiros',
     value: '8',
   },
 ];
 
-export function buildGlobalTransport(car: TTypeTransport, km: string) {
-  const carBuild = veiculosC.filter(h => h.veiculo === car);
+export function buildGlobalTransport(car: string, km: string) {
+  const carSelected = optionsTransport.find(h => h.value === car);
+  const carBuild = veiculosC.filter(h => h.veiculo === carSelected?.label);
   const buildCar = carBuild;
 
   const build = buildCar[0];

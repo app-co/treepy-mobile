@@ -42,8 +42,6 @@ export function Input({
     <S.Container focus={isFocused} filed={isFiled} error={error}>
       {label && <S.title>{label}</S.title>}
 
-      {error && <S.title>{error}</S.title>}
-
       <HStack alignItems="center" justifyContent="space-between">
         <S.input
           isFilled={isFiled}
@@ -64,6 +62,7 @@ export function Input({
           </S.boxIcon>
         )}
       </HStack>
+      {error && <S.title style={{ color: '#f04646' }}>{error}</S.title>}
     </S.Container>
   );
 }

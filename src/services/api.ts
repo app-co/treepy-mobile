@@ -1,5 +1,7 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable default-case */
 import axios from 'axios';
+
 
 import ConnectionErrorModalHandler from '../components/modals/connectionErrorModal/handler';
 import InternalServerErrorModalHandler from '../components/modals/internalServerErrorModal/handler';
@@ -13,10 +15,7 @@ const url: { [key: string]: string } = {
 };
 
 const api = axios.create({
-  baseURL: 'https://tst-clubgas-api.azurewebsites.net/api/v1',
-  headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiSGlub3ZhIiwibmJmIjoxNzE2NTEyMTE2LCJleHAiOjE4NzQyNzg1MTYsImlhdCI6MTcxNjUxMjExNn0.F_XKnQfPUvqiFhx8HFCZRgDkKvbLSG_-rl5tfYPV3Rg`,
-  },
+  baseURL: 'https://treepy-server.appcom.dev',
 });
 
 function handleConnectionError() {
@@ -40,21 +39,28 @@ function handleServerError(error: any) {
   }
 }
 
-api.interceptors.request.use(
-  async config => {
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  },
-);
+// api.interceptors.request.use(
+//   async config => {
+//     const token = await AsyncStorage.getItem('treepy@token');
+
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+
+//     return config;
+//   },
+//   error => {
+//     return Promise.reject(error);
+//   },
+// );
 
 api.interceptors.response.use(
   response => {
     return response;
   },
   error => {
-    const repnseApi = error?.response?.data?.errors[0];
+    const repnseApi = error?.response?.data?.error;
+    console.log({ repnseApi });
     if (!error.response) {
       handleConnectionError();
     } else {

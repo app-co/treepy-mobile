@@ -21,7 +21,7 @@ export function Table({ item = [], del }: props) {
     <Box bg={color.green[100]} mt={8} rounded={8} p={4}>
       <HStack alignItems="center" justifyContent="space-between">
         <Text color={color.gray[200]} fontFamily="regular">
-          Transporte
+          Veículo
         </Text>
         <Text color={color.gray[200]} fontFamily="regular">
           Quilometragem
@@ -32,7 +32,12 @@ export function Table({ item = [], del }: props) {
       </HStack>
 
       {item.map(h => (
-        <Box>
+        <HStack
+          key={h.id}
+          alignItems="center"
+          justifyContent="space-between"
+          mt={4}
+        >
           <Text fontFamily="bold" w="120px" color={color.gray[100]}>
             {h.veiculo}
           </Text>
@@ -43,10 +48,8 @@ export function Table({ item = [], del }: props) {
           <TouchableOpacity onPress={() => del(h.id)}>
             <Feather name="trash-2" size={25} color={color.orange[200]} />
           </TouchableOpacity>
-        </Box>
+        </HStack>
       ))}
-
-      <HStack alignItems="center" justifyContent="space-between" mt={4} />
     </Box>
   );
 }

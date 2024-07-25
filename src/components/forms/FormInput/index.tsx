@@ -12,7 +12,7 @@ import { Input, TypeInput } from '../Input';
 type T = TypeInput & {
   name: string;
   control: Control<any>;
-  error?: string;
+  error?: any;
   mask?: 'date' | 'cpf' | 'cell-phone' | 'placa';
   typeInput?: 'placa' | 'padrao';
 };
