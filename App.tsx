@@ -94,7 +94,7 @@ export default function App() {
       <NavigationContainer linking={linking}>
         <AuthProvider>
           <StatusBar
-            // hidden
+            hidden
             translucent
             // backgroundColor={color.focus.regular}
             style="light"

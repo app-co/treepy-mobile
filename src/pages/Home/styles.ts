@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-import { _subtitle, _text, _title } from '@/styles/sizes';
+import { _subtitle, _text, _title, hightPercent } from '@/styles/sizes';
 import { color } from '@/styles/theme';
 
 export const Container = styled.View`
@@ -26,11 +26,20 @@ export const text = styled.Text`
 `;
 
 export const content = styled.View`
-  padding: 10px;
   gap: 15px;
 `;
 
 export const box = styled.View`
   background-color: rgba(4, 43, 23, 0.75);
   padding: 10px;
+  height: ${hightPercent('30')}px;
+  justify-content: center;
+  border-radius: 10;
+`;
+
+export const boxF = styled.View`
+  background-color: rgba(4, 43, 23, 0.75);
+  padding: 10px;
+  justify-content: center;
+  border-radius: 6;
 `;

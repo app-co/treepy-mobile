@@ -13,7 +13,7 @@ import * as S from './styles';
 
 const abbreviatedMonths: string[] = [
   'Jan',
-  'Feb',
+  'Fev',
   'Mar',
   'Abr',
   'Mai',

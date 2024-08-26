@@ -75,11 +75,10 @@ export function Questions() {
                 <HStack alignItems="center" space={4} >
                   <PredioSvg />
                   <Box>
-                    <S.title style={{ fontSize: _title }}>Avenida Paulista 1842 -</S.title>
-                    <S.title style={{ fontSize: _title }}>Complemento: Conj 178 -</S.title>
-                    <S.title style={{ fontSize: _title }}>Bairro: Bela Vista -</S.title>
-                    <S.title style={{ fontSize: _title }}>São Paulo / SP - </S.title>
-                    <S.title style={{ fontSize: _title }}>CEP: 01310-945</S.title>
+                    <S.title style={{ fontSize: _title }}>Avenida Paulista, 1.842</S.title>
+                    <S.title style={{ fontSize: _title }}>17º Andar - Conjunto 178</S.title>
+                    <S.title style={{ fontSize: _title }}>Bela Vista - São Paulo - SP</S.title>
+                    <S.title style={{ fontSize: _title }}>CEP 01310-945</S.title>
 
                   </Box>
                 </HStack>

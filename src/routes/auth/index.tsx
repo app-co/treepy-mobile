@@ -7,6 +7,7 @@ import { Home } from '@/pages/Home';
 import { Parceiros } from '@/pages/Parceiros';
 import { Questions } from '@/pages/Questions';
 import { Treepycashe } from '@/pages/Treepycashe';
+import { color } from '@/styles/theme';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { StakRouter } from './stack';
@@ -19,14 +20,28 @@ export function AppDrawer() {
       drawerContent={DrawerContent}
       screenOptions={{
         header: props => <GlobalHeader {...props} />,
+        drawerActiveTintColor: color.greenLigh[100],
+        drawerInactiveTintColor: color.gray[100],
       }}
     >
       <Screen name="Home" component={Home} />
-      <Screen name="Questions" component={Questions} />
-      <Screen name="Parceiros" component={Parceiros} />
       <Screen name="Calculadora" component={StakRouter} />
-      <Screen name="Treepycashe" component={Treepycashe} />
+      <Screen
+        options={{
+          title: 'TreepyCashes',
+        }}
+        name="Treepycashe"
+        component={Treepycashe}
+      />
       <Screen name="Florestas" component={Florestas} />
+      <Screen name="Parceiros" component={Parceiros} />
+      <Screen
+        options={{
+          title: 'Perguntas',
+        }}
+        name="Questions"
+        component={Questions}
+      />
     </Navigator>
   );
 }

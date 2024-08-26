@@ -5,7 +5,11 @@ import { ScrollView } from 'react-native';
 import { Box } from 'native-base';
 
 import { ImgCalculadora } from '@/components/imgs/img-calculadora';
+import { useAuth } from '@/contexts/auth';
 import { useStepByStep } from '@/contexts/step-by-step';
+import { useMetricas } from '@/hooks/user/querys';
+import { api } from '@/services/api';
+import { useNavigation } from '@react-navigation/native';
 
 import { CircleStep } from './CircleStep';
 import { Eletrica } from './Eletrica';
@@ -65,6 +69,10 @@ const initialValue = {
 };
 
 export function Recalculation() {
+  const navigation = useNavigation();
+  const { user } = useAuth();
+  const { refetch } = useMetricas();
+
   function reducer(state: IState, action: IAction) {
     switch (action.step) {
       case 0:
@@ -131,6 +139,7 @@ export function Recalculation() {
       }
 
       case 6:
+        navigation.goBack();
         return initialValue;
 
       default:
@@ -181,7 +190,13 @@ export function Recalculation() {
       goBack={() => changeStep(currentStep - 1)}
       next={() => changeStep(currentStep + 1)}
     />,
-    <Total item={state} />,
+    <Total
+      clear={() => {
+        dispatch({ step: 6 });
+        changeStep(0);
+      }}
+      item={state}
+    />,
   ];
 
   const { changeStep, currentComponent, currentStep, lastStep } = useStepByStep(
@@ -189,6 +204,66 @@ export function Recalculation() {
       step: conponets,
     },
   );
+
+  const handleSaveCalc = React.useCallback(async () => {
+    const calculadora = {
+      eletricidade: {
+        item: 'Eletricidade',
+        co2: state.eletric.co2,
+        porcent: 0,
+      },
+      gas: {
+        item: 'Gás',
+        co2: state.gas.co2,
+        porcent: 0,
+      },
+      transporte_individual: {
+        item: 'Transporte Individual',
+        co2: state.personalTransport.value,
+        porcent: 0,
+      },
+      transporte_coletivo: {
+        item: 'Transporte Coletivo',
+        co2: state.globalTransport.value,
+        porcent: 0,
+      },
+      residuos: {
+        item: 'residuos',
+        co2: 0,
+        porcent: 0,
+      },
+      alimentacao: {
+        item: 'Alimentação',
+        co2: 10,
+        porcent: 10,
+      },
+      total: {
+        item: 'Total',
+        co2: state.total,
+        porcent: 0,
+      },
+    };
+
+    const dt = {
+      ...calculadora,
+      fk_user_id: user!.id,
+    };
+
+    api.post('/calc-create', dt);
+    await refetch();
+
+    await api.post('/history', {
+      fk_user_id: user!.id,
+      title: 'Calculadora',
+      subtitle: 'Meta anual de TreepyCash recalculada',
+    });
+  }, [state, user]);
+
+  React.useEffect(() => {
+    if (currentStep === 5) {
+      handleSaveCalc();
+    }
+  }, [currentStep]);
 
   return (
     <S.Container>

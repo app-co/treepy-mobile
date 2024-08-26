@@ -7,6 +7,7 @@ const S = Nv.createNativeStackNavigator();
 export function StakRouter() {
   return (
     <S.Navigator
+      initialRouteName="calculadora"
       screenOptions={{
         headerShown: false,
       }}

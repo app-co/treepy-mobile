@@ -142,8 +142,8 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
             <Box mt={4} w="full">
               {byStep === 1 && (
                 <Box>
-                  <S.text>Primeiro, selecione o tipo de veículo.</S.text>
                   <Selection
+                    placeholder="Tipo de veículo"
                     itens={typeVeiculos}
                     itemSelected={h => setCar(h)}
                   />
@@ -152,16 +152,19 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
 
               {byStep === 2 && car === '1' && (
                 <Box>
-                  <S.text>Agora, selecione o tipo de combustível.</S.text>
-                  <Selection itemSelected={h => setGas(h)} itens={typeGas} />
+                  <Selection
+                    placeholder="Tipo de combustível"
+                    itemSelected={h => setGas(h)}
+                    itens={typeGas}
+                  />
                 </Box>
               )}
 
               {byStep === 2 && car === '2' && (
                 <Box>
-                  <S.text>Agora, selecione o tipo de combustível.</S.text>
                   <Selection
                     itemSelected={setGas}
+                    placeholder="Potência do motor"
                     itens={typeGas.slice(0, 2)}
                   />
                 </Box>
@@ -169,9 +172,9 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
 
               {byStep === 3 && Number(car) <= 2 && Number(gas) <= 4 && (
                 <Box>
-                  <S.text>Selecione a potência do motor.</S.text>
                   <Selection
                     itemSelected={setPower}
+                    placeholder="Potência do motor"
                     itens={car === '1' ? typePotencia : powerMoto}
                   />
                 </Box>
@@ -199,7 +202,7 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
                   <S.text>Digite o km mensal</S.text>
                   <Box>
                     <Input
-                      label="KM"
+                      label="km"
                       keyboardType="numeric"
                       onChangeText={setKm}
                       placeholder="digite aqui o valor"
@@ -300,15 +303,14 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
 
       <Center mb={4}>
         <S.title style={{ fontFamily: 'trin' }}>Utilização de </S.title>
-        <S.title style={{ marginTop: -8 }}>Transporte Individual.</S.title>
+        <S.title style={{ marginTop: -8 }}>Transporte Individual</S.title>
       </Center>
 
       <Box my={4}>
         <S.text>
-          Insira a quilometragem{' '}
-          <S.text style={{ fontFamily: 'bold' }}>MENSAL</S.text> percorrida com
-          seu transporte individual utilizado no dia a dia. É possível inserir
-          mais de um tipo de transporte.
+          Insira a quilometragem <S.text>MENSAL</S.text> percorrida com seu
+          transporte individual utilizado no dia a dia. É possível inserir mais
+          de um tipo de transporte.
         </S.text>
       </Box>
 
@@ -325,7 +327,7 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
           <Button onPress={goBack} title="Voltar" styleType="border" />
         </Box>
         <Box flex={1}>
-          <Button onPress={next} title="Proxio" styleType="light" />
+          <Button onPress={next} title="Próximo" styleType="light" />
         </Box>
       </HStack>
     </S.Container>

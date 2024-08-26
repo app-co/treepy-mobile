@@ -62,7 +62,7 @@ export function Input({
           </S.boxIcon>
         )}
       </HStack>
-      {error && <S.title style={{ color: '#f04646' }}>{error}</S.title>}
+      {error && <S.title style={{ color: color.orange[100] }}>{error}</S.title>}
     </S.Container>
   );
 }

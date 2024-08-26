@@ -25,9 +25,4 @@ export const food = [
     id: 4,
   },
   { fod: 'Consumo carne de maneira esporádica.', co2: 76.87, id: 5 },
-  {
-    fod: 'Não consumo carne (vegano, ovo-lacto-vegetariano, etc).',
-    co2: 0,
-    id: 6,
-  },
 ];

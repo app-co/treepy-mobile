@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { Box, HStack, Text } from 'native-base';
 
 import { color } from '@/styles/theme';
+import { _toPtBRNumber } from '@/utils/unidades';
 
 interface I {
   excluir: (id: number) => void;
@@ -26,7 +27,7 @@ export function Table({ item, excluir }: I) {
           Quilometragem
         </Text>
         <Text color={color.gray[200]} fontFamily="regular">
-          excluir
+          Excluir
         </Text>
       </HStack>
 
@@ -41,7 +42,7 @@ export function Table({ item, excluir }: I) {
             {h.veiculo}
           </Text>
           <Text fontFamily="bold" color={color.gray[100]}>
-            {h.quilometragem}
+            {_toPtBRNumber(h.quilometragem)}
           </Text>
 
           <TouchableOpacity onPress={() => excluir(h.id)}>

@@ -7,6 +7,7 @@ import { AlertSvg } from '@/assets/svgs/alert';
 import { MetaChart } from '@/components/Charts/MetaChart';
 import { Button } from '@/components/forms/Button';
 import { ImgCalculadora } from '@/components/imgs/img-calculadora';
+import { Payment } from '@/components/template/Payment';
 import { _title } from '@/styles/sizes';
 import { useNavigation } from '@react-navigation/native';
 
@@ -14,14 +15,16 @@ import * as S from './styles';
 
 export function Calculadora() {
   const navigation = useNavigation();
+  const [openShet, setOpenShet] = React.useState(false);
   return (
     <S.Container>
+      <Payment tree={3} open={openShet} closed={() => setOpenShet(false)} />
       <ImgCalculadora>
         <ScrollView contentContainerStyle={{ gap: 25 }}>
           <S.content>
             <HStack alignItems="center" justifyContent="space-between" mb={2}>
               <S.text>Fonte</S.text>
-              <S.text>Emissões (tCO2)</S.text>
+              <S.text>Emissões (tCO₂)</S.text>
             </HStack>
             <HStack alignItems="center" justifyContent="space-between" mb={2}>
               <S.sub>Eletricidade</S.sub>
@@ -59,7 +62,7 @@ export function Calculadora() {
             <MetaChart />
           </S.content>
 
-          <Button title="Comprar mais" />
+          <Button onPress={() => setOpenShet(true)} title="Comprar mais" />
 
           <S.content>
             <HStack alignItems="center" space={4}>

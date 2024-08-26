@@ -30,7 +30,8 @@ export function RadioGrup({
           _text={{
             color: color.gray[100],
             fontFamily: 'regular',
-            fontSize: 18,
+            fontSize: 17,
+            // width: '308px',
           }}
           size="sm"
           _checked={{

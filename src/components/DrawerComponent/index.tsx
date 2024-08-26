@@ -19,7 +19,7 @@ import { Avatar, Container, Header, LogOf, Title, TitleName } from './styles';
 type Props = DrawerContentComponentProps;
 
 export function DrawerContent({ ...props }: Props) {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <Container>
@@ -43,8 +43,8 @@ export function DrawerContent({ ...props }: Props) {
       <ScrollView>
         <DrawerItemList {...props} />
 
-        <LogOf onPress={() => { }}>
-          <Title style={{ color: color.gray[400] }}>SAIR</Title>
+        <LogOf onPress={() => signOut()}>
+          <Title style={{ color: color.gray[200] }}>SAIR</Title>
         </LogOf>
       </ScrollView>
     </Container>

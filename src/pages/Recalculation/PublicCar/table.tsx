@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { Box, HStack, Text } from 'native-base';
 
 import { color } from '@/styles/theme';
+import { _toPtBRNumber } from '@/utils/unidades';
 
 interface props {
   item: {
@@ -27,7 +28,7 @@ export function Table({ item = [], del }: props) {
           Quilometragem
         </Text>
         <Text color={color.gray[200]} fontFamily="regular">
-          excluir
+          Excluir
         </Text>
       </HStack>
 
@@ -42,7 +43,7 @@ export function Table({ item = [], del }: props) {
             {h.veiculo}
           </Text>
           <Text fontFamily="bold" color={color.gray[100]}>
-            {h.Quilometragem}
+            {_toPtBRNumber(h.Quilometragem)}
           </Text>
 
           <TouchableOpacity onPress={() => del(h.id)}>

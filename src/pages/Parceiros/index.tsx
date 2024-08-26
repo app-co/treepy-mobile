@@ -26,7 +26,7 @@ export function Parceiros() {
 
             <S.title>
               Oferecemos à você a oportunidade de acumular mais TreepyCashes ao
-              consumir esses produto e serviços. QUanto mais você consome, mais
+              consumir esses produtos e serviços. Quanto mais você consome, mais
               você refloresta.
             </S.title>
 

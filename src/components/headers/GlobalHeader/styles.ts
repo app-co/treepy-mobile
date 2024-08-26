@@ -5,7 +5,7 @@ import { color } from '@/styles/theme';
 
 export const Container = styled.View`
   position: absolute;
-  padding: 30px 20px;
+  padding: 30px 0px;
 
   align-items: center;
   justify-content: space-between;
@@ -17,4 +17,6 @@ export const title = styled.Text`
   font-family: 'bold';
   font-size: ${_subtitle}px;
   color: ${color.greenLigh[100]};
+  text-align: start;
+  flex: 1;
 `;

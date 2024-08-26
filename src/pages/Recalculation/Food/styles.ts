@@ -6,7 +6,7 @@ import { color } from '@/styles/theme';
 export const Container = styled.View``;
 export const title = styled.Text`
   font-family: bold;
-  font-size: ${_title + 10}px;
+  font-size: ${_title}px;
   color: ${color.gray[100]};
 `;
 export const text = styled.Text`

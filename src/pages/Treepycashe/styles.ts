@@ -25,7 +25,7 @@ export const content = styled.View`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  margin: 10px 0;
+  /* margin: 10px 0; */
 `;
 
 export const header = styled.View`

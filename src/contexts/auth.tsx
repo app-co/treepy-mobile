@@ -7,6 +7,7 @@ import { IUser } from '@/hooks/user/interface';
 import { useLogin } from '@/hooks/user/mutation';
 import { TLogin } from '@/hooks/user/types';
 import { api } from '@/services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { OneSignal } from 'react-native-onesignal';
 
 interface AuthProviderProps {
@@ -17,6 +18,7 @@ interface AuthContextData {
   user: IUser | null;
   loading: boolean;
   signIn: (value: TLogin) => void;
+  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -86,28 +88,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     // OneSignal.User.addTag('user', auth.cpfCnpj);
   }, []);
 
-  // function signOut() {
-  //   setLoading(true);
-  //   OneSignal.User.removeTag('user');
+  async function signOut() {
+    setLoading(true);
+    // OneSignal.User.removeTag('user');
 
-  //   // OneSignal.User.removeTag('userId');
-  //   const localAuth = AsyncStorage.getItem('megabem@local-auth').then(h =>
-  //     h ? JSON.parse(h) : null,
-  //   );
-  //   AsyncStorage.clear().then(() => {
-  //     setUser(null);
-  //   });
+    // OneSignal.User.removeTag('userId');
 
-  //   localAuth.then(async h => {
-  //     await AsyncStorage.setItem('megabem@local-auth', JSON.stringify(h));
-  //   });
-  //   setLoading(false);
-  // }
+    await AsyncStorage.clear();
+    setUser(null);
+    console.log({ user });
+
+    setLoading(false);
+  }
 
   return (
     <AuthContext.Provider
       value={{
         signIn,
+        signOut,
         user,
         loading,
       }}

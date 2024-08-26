@@ -37,7 +37,7 @@ export const Container = styled.View<I>`
   ${(h: I) =>
     h.error &&
     css`
-      border-color: ${color.greenLigh[300]};
+      border-color: ${color.orange[100]};
       border-width: 1px;
     `};
 `;

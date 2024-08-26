@@ -27,7 +27,7 @@ export function ImgParceiro({ children }: I) {
       <S.content>
         <HStack alignItems="center" space={4}>
           <HandSvg />
-          <S.title>Pareceiros</S.title>
+          <S.title>Parceiros</S.title>
         </HStack>
         {children}
       </S.content>

@@ -50,7 +50,7 @@ export function Table({ item }: T) {
           color={color.gray[100]}
           mr={4}
         >
-          {item?.eletric.co2}
+          {item?.eletric.co2.toLocaleString('pt-BR')}
         </Text>
       </HStack>
 
@@ -70,7 +70,7 @@ export function Table({ item }: T) {
           color={color.gray[100]}
           mr={4}
         >
-          {item?.gas.co2}
+          {item?.gas.co2.toLocaleString('pt-BR')}
         </Text>
       </HStack>
 
@@ -90,7 +90,7 @@ export function Table({ item }: T) {
           color={color.gray[100]}
           mr={4}
         >
-          {item?.personalTransport.value}
+          {item?.personalTransport.value.toLocaleString('pt-BR')}
         </Text>
       </HStack>
 
@@ -110,7 +110,7 @@ export function Table({ item }: T) {
           color={color.gray[100]}
           mr={4}
         >
-          {item?.globalTransport.value}
+          {item?.globalTransport.value.toLocaleString('pt-BR')}
         </Text>
       </HStack>
 
@@ -130,7 +130,7 @@ export function Table({ item }: T) {
           color={color.gray[100]}
           mr={4}
         >
-          {item?.food.co2}
+          {item?.food.co2.toLocaleString('pt-BR')}
         </Text>
       </HStack>
 
@@ -150,7 +150,7 @@ export function Table({ item }: T) {
           color={color.gray[100]}
           mr={4}
         >
-          {item?.total}
+          {item?.total.toLocaleString('pt-BR')}
         </Text>
       </HStack>
     </Box>

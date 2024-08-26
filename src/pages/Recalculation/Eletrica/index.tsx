@@ -5,7 +5,7 @@ import { Box, Center, HStack } from 'native-base';
 import { Button } from '@/components/forms/Button';
 import { Input } from '@/components/forms/Input';
 import { Selection } from '@/components/forms/Selection';
-import { _toNumber } from '@/utils/unidades';
+import { _toNumber, _toPtBRNumber } from '@/utils/unidades';
 
 import * as S from './styles';
 
@@ -52,7 +52,7 @@ function calc(value: string, opt: string) {
 }
 
 export function Eletrica({ getItem, onChange }: I) {
-  const [value, setValue] = React.useState(String(getItem.value));
+  const [value, setValue] = React.useState(String(getItem.value) ?? '0');
   const [selecOption, setSelectOption] = React.useState(getItem.type);
 
   const handleChange = React.useCallback(() => {
@@ -63,6 +63,8 @@ export function Eletrica({ getItem, onChange }: I) {
 
   const enu = formated[selecOption];
 
+  const valorFormat = _toPtBRNumber(_toNumber(value));
+
   return (
     <S.Container>
       <Center>
@@ -70,7 +72,7 @@ export function Eletrica({ getItem, onChange }: I) {
         <S.title style={{ marginTop: -10 }}>Eletricidade</S.title>
       </Center>
 
-      <S.text>Primeirom selecione a sua unidade de medida.</S.text>
+      <S.text>Primeiro selecione a sua unidade de medida.</S.text>
       <Box style={{ gap: 15 }} mt={6}>
         <Selection
           placeholder={selecOption ? enu : 'Unidade de medida'}
@@ -86,15 +88,15 @@ export function Eletrica({ getItem, onChange }: I) {
         <Input
           label={selecOption ? formated[selecOption] : 'Unidade de medida'}
           onChangeText={setValue}
-          value={value}
-          placeholder="Digite aqui o valor."
+          value={valorFormat}
+          placeholder="Digite aqui o valor"
           keyboardType="numeric"
         />
 
         <HStack m={8}>
           <Box flex={1} />
           <Box flex={1}>
-            <Button onPress={handleChange} title="Proxio" styleType="light" />
+            <Button onPress={handleChange} title="Próximo" styleType="light" />
           </Box>
         </HStack>
       </Box>

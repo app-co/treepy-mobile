@@ -45,13 +45,13 @@ export function Food({ setItem, goBack, next, getItem }: I) {
 
   return (
     <S.Container>
-      <Center>
+      <Center my={2}>
         <S.title style={{ fontFamily: 'trin' }}>
           Escolha o consumo que melhor define a sua dieta no dia a dia
         </S.title>
       </Center>
 
-      <Box bg={color.green[100]} p={4} rounded={8}>
+      <Box w="full" flex={1} bg={color.green[100]} p={3} rounded={8}>
         <RadioGrup radios={foods} selected={h => changeItem(h)} alin="column" />
 
         <HStack space={8} mt={8}>
@@ -59,7 +59,7 @@ export function Food({ setItem, goBack, next, getItem }: I) {
             <Button onPress={goBack} title="Voltar" styleType="border" />
           </Box>
           <Box flex={1}>
-            <Button onPress={next} title="Proxio" styleType="light" />
+            <Button onPress={next} title="Próximo" styleType="light" />
           </Box>
         </HStack>
       </Box>

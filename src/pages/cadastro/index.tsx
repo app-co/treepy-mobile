@@ -12,14 +12,17 @@ import { Button } from '@/components/forms/Button';
 import { FormInput } from '@/components/forms/FormInput';
 import { Line } from '@/components/Line';
 import { _title, hightPercent } from '@/styles/sizes';
+import { useNavigation } from '@react-navigation/native';
 
 import * as S from './styles';
 
 export function Cadastro() {
+  const navigation = useNavigation();
   const {
     control,
     formState: { errors },
   } = useForm();
+
   return (
     <S.Container>
       <Image
@@ -49,7 +52,7 @@ export function Cadastro() {
 
         <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
           <VStack space={8} p={4}>
-            <Center mt={hightPercent('3')}>
+            <Center>
               <S.title style={{ fontSize: _title + 10 }}>Cadastro</S.title>
             </Center>
             <FormInput
@@ -93,7 +96,11 @@ export function Cadastro() {
 
             <Box style={{ gap: 15 }}>
               <Button />
-              <Button styleType="border" title="Voltar" />
+              <Button
+                onPress={() => navigation.goBack()}
+                styleType="border"
+                title="Voltar"
+              />
             </Box>
           </VStack>
         </ScrollView>
