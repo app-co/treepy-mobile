@@ -137,7 +137,7 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
       >
         <Box w="full" p={10} h={hightPercent('50')} bg={color.green[100]}>
           <Center w="100%">
-            <S.text>Selecione seu tranporte individual</S.text>
+            <S.text>Selecione seu transporte individual</S.text>
 
             <Box mt={4} w="full">
               {byStep === 1 && (
@@ -182,7 +182,7 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
 
               {byStep === 3 && Number(gas) === 5 && (
                 <Box>
-                  <S.text>Selecione o modelo do veículo.</S.text>
+                  <S.text>Selecione o modelo do veículo</S.text>
                   <Selection itemSelected={setModel} itens={typeModel} />
                 </Box>
               )}

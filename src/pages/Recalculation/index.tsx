@@ -95,7 +95,7 @@ export function Recalculation() {
         return {
           ...state,
           progres: 2,
-          title: 'Tranporte Individual',
+          title: 'Transporte Individual',
           personalTransport: action.payload
             ? action.payload
             : state.personalTransport,
