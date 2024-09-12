@@ -147,6 +147,14 @@ type T = {
   modelo: string;
   km: string;
 };
+
+function findOption(
+  typeArray: { value: string; label: string }[],
+  value: string,
+) {
+  return typeArray.find(option => option.value === value)?.label ?? '0';
+}
+
 export function buildPersonalTransport({
   car,
   modelo,
@@ -155,20 +163,22 @@ export function buildPersonalTransport({
   gasHibrido,
   km,
 }: T) {
-  const formatedCar = typeVeiculos.find(h => h.value === car);
-  const combustivel = typeGas.find(h => h.value === gas);
+  const Carro = findOption(typeVeiculos, car);
+  const combustivel = findOption(typeGas, gas);
+  const model = findOption(typeModel, modelo);
+  const potencia = findOption(typePotencia, power);
+  const potenciaMoto = findOption(powerMoto, power);
+  const gasH = findOption(typeHibridoGas, gasHibrido);
 
-  const carBuild = veiculosP.filter(
-    h => h.Meio_de_transporte === formatedCar?.label,
-  );
-  const buildCar = carBuild;
+  const powered = Carro === 'Carro' ? potencia : potenciaMoto;
 
-  const carSelct = buildCar.find(h => {
+  const carSelct = veiculosP.find(h => {
     if (
-      h.Combustível_Tipo.includes(combustivel?.label) &&
-      h.Combustível.includes(gasHibrido) &&
-      h.Modelo.includes(modelo) &&
-      h.Potência_do_motor.includes(power)
+      h.Meio_de_transporte.includes(Carro!) &&
+      h.Combustível_Tipo.includes(combustivel!) &&
+      h.Combustível.includes(gasH) &&
+      h.Modelo.includes(model!) &&
+      h.Potência_do_motor.includes(powered)
     ) {
       return h;
     }

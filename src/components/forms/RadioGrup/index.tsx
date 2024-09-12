@@ -27,11 +27,11 @@ export function RadioGrup({
       {radios.map(h => (
         <Radio
           key={h.value}
+          flexWrap="wrap"
           _text={{
             color: color.gray[100],
             fontFamily: 'regular',
             fontSize: 17,
-            // width: '308px',
           }}
           size="sm"
           _checked={{

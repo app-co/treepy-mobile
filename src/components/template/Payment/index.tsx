@@ -78,6 +78,7 @@ const paymentMethod = new PaymentMethodAsaas();
 export function Payment({ open, tree, closed }: I) {
   const { user } = useAuth();
   const { payCard, cardToken } = useCard()
+  const [qntTree, setQntTree] = React.useState(tree)
 
   const [load, setLoad] = React.useState<boolean>(false);
   const [selectionType, setSelectionType] = React.useState<string>('0');
@@ -115,7 +116,7 @@ export function Payment({ open, tree, closed }: I) {
     },
   });
 
-  const currencAmout = convertTeeToCurrency(tree);
+  const currencAmout = convertTeeToCurrency(qntTree);
   const valueAmount = _toNumber(currencAmout);
   const valueInstalment = watch('installmentCount');
 
@@ -247,7 +248,7 @@ export function Payment({ open, tree, closed }: I) {
     }
   }
 
-  const amount = convertTeeToCurrency(tree);
+  const amount = convertTeeToCurrency(qntTree);
   const parcelas = installments(valueAmount / 100);
 
   return (
@@ -268,8 +269,8 @@ export function Payment({ open, tree, closed }: I) {
               </HStack>
 
               <VStack space={4}>
-                <S.title style={{ fontSize: _title + 25 }}>{tree}</S.title>
                 <S.text>Seus TreepyCashes: { }</S.text>
+                <S.title style={{ fontSize: _title + 25 }}>{qntTree}</S.title>
 
                 <RadioGrup
                   radios={grup}
@@ -282,6 +283,8 @@ export function Payment({ open, tree, closed }: I) {
                     placeholder="Digite a quantidade"
                     keyboardType="numeric"
                     label="TreepyCashes"
+                    onChangeText={qnt => setQntTree(Number(qnt))}
+
                   />
                 )}
 

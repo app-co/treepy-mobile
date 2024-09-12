@@ -319,6 +319,4 @@ export const veiculosP = [
     co2: 0.84,
     id: 31,
   },
-]
-
-export function vp() { }
+];

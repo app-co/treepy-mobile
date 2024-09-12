@@ -52,7 +52,13 @@ export function Food({ setItem, goBack, next, getItem }: I) {
       </Center>
 
       <Box w="full" flex={1} bg={color.green[100]} p={3} rounded={8}>
-        <RadioGrup radios={foods} selected={h => changeItem(h)} alin="column" />
+        <Box w="294" flexWrap="wrap">
+          <RadioGrup
+            radios={foods}
+            selected={h => changeItem(h)}
+            alin="column"
+          />
+        </Box>
 
         <HStack space={8} mt={8}>
           <Box flex={1}>

@@ -17,6 +17,8 @@ interface I {
 }
 
 export function Table({ item, excluir }: I) {
+  console.log({ item });
+
   return (
     <Box bg={color.green[100]} mt={8} rounded={8} p={4}>
       <HStack alignItems="center" justifyContent="space-between">
@@ -31,7 +33,7 @@ export function Table({ item, excluir }: I) {
         </Text>
       </HStack>
 
-      {item.map(h => (
+      {item.map((h, i) => (
         <HStack
           key={h.id}
           alignItems="center"
@@ -45,7 +47,7 @@ export function Table({ item, excluir }: I) {
             {_toPtBRNumber(h.quilometragem)}
           </Text>
 
-          <TouchableOpacity onPress={() => excluir(h.id)}>
+          <TouchableOpacity onPress={() => excluir(i)}>
             <Feather name="trash-2" size={25} color={color.orange[200]} />
           </TouchableOpacity>
         </HStack>

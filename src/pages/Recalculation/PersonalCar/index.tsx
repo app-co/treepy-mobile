@@ -53,8 +53,6 @@ interface I {
 }
 
 export function PersonalCar({ goBack, setItem, getItem, next }: I) {
-  const handleNext = React.useCallback(async () => { }, []);
-
   const [saveItem, setSaveItem] = React.useState<IVeiculoProps[]>(getItem);
 
   const [byStep, setByStep] = React.useState(1);
@@ -103,11 +101,10 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
 
   const removeItem = useCallback(
     (id: number) => {
-      const index = saveItem.findIndex((h, i) => i === id);
       const arry = [...saveItem];
-      if (index !== -1) {
-        arry.splice(index, 1);
-      }
+
+      arry.splice(id, 1);
+
       const item = arry;
       const value = item.reduce((ac, i) => ac + i.co2, 0);
       const data = {
@@ -218,7 +215,7 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
                   <Box>
                     <Input
                       keyboardType="numeric"
-                      label="KM"
+                      label="km"
                       onChangeText={setKm}
                       value={_toPtBRNumber(_toNumber(km))}
                       placeholder="digite aqui o valor"
