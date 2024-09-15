@@ -17,8 +17,6 @@ interface I {
 }
 
 export function Table({ item, excluir }: I) {
-  console.log({ item });
-
   return (
     <Box bg={color.green[100]} mt={8} rounded={8} p={4}>
       <HStack alignItems="center" justifyContent="space-between">

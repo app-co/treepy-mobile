@@ -146,7 +146,7 @@ export function Table({ item }: T) {
         </Text>
         <Text
           fontSize={_subtitle + 5}
-          fontFamily="regular"
+          fontFamily="bold"
           color={color.gray[100]}
           mr={4}
         >

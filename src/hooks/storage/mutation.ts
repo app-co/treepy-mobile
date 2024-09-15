@@ -1,15 +1,14 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { StorageFetch } from './fetch';
 
 const storage = new StorageFetch();
 
 export function useSaveLocal() {
-  return useMutation(storage.save);
-}
-
-export function useGetStorage() {
-  return useMutation(storage.get);
+  const client = useQueryClient();
+  return useMutation(storage.save, {
+    onSuccess: () => client.removeQueries('storage'),
+  });
 }
 
 export function useDeleteItemStorage() {

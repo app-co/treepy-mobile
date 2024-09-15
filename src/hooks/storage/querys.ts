@@ -7,6 +7,5 @@ export function useGetStorage(key: string) {
   return useQuery({
     queryKey: ['storage', key],
     queryFn: () => fetch.get(key),
-    refetchInterval: 60 * 60 * 1000, // 1 hour
   });
 }

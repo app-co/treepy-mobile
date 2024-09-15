@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 
-import { useGetStorage, useSaveLocal } from '@/hooks/storage/mutation';
+import { useSaveLocal } from '@/hooks/storage/mutation';
+import { useGetStorage } from '@/hooks/storage/querys';
 import { UserFetch } from '@/hooks/user/fetchs';
 import { IUser } from '@/hooks/user/interface';
 import { useLogin } from '@/hooks/user/mutation';
@@ -26,7 +27,7 @@ const fetch = new UserFetch();
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const { isLoading, mutateAsync: loginMutation } = useLogin();
-  const getToken = useGetStorage();
+  const getToken = useGetStorage('treepy@token');
   const saveStorage = useSaveLocal();
 
   const [user, setUser] = useState<IUser | null>(null);
@@ -38,16 +39,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   //   setUser(input);
   // }, []);
+  const token = getToken.data;
 
   const loadUser = React.useCallback(async () => {
     setLoading(true);
-    const token = await getToken.mutateAsync('treepy@token');
     if (token) {
       const data = await fetch.userByID();
       setUser(data.user);
     }
     setLoading(false);
-  }, [getToken]);
+  }, [token]);
 
   React.useEffect(() => {
     if (isLoading || getToken.isLoading || saveStorage.isLoading) {
@@ -59,24 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   React.useEffect(() => {
     loadUser();
-  }, []);
-
-  // useEffect(() => {
-  //   async function loadStorageData() {
-  //     setLoading(true);
-  //     const storageUser = await AsyncStorage.getItem('@megabem:user');
-  //     const storageToken = await AsyncStorage.getItem('@megabem:token');
-
-  //     if (storageUser && storageToken) {
-  //       setUser(JSON.parse(storageUser));
-  //       setLoading(false);
-  //     } else {
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   loadStorageData();
-  // }, []);
+  }, [token]);
 
   const signIn = React.useCallback(async (input: TLogin) => {
     const auth = await loginMutation(input);
@@ -96,7 +80,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     await AsyncStorage.clear();
     setUser(null);
-    console.log({ user });
 
     setLoading(false);
   }

@@ -75,23 +75,35 @@ export function Recalculation() {
 
   function reducer(state: IState, action: IAction) {
     switch (action.step) {
-      case 0:
+      case 0: {
+        const total = action.payload?.co2;
+
         return {
           ...state,
           progres: 0,
           title: 'Eletricidade',
           eletric: action.payload ? action.payload : state.eletric,
+          total,
         };
+      }
 
-      case 1:
+      case 1: {
+        const co2 = action.payload?.co2;
+        const total = state.eletric.co2 + co2! ?? 0;
+
         return {
           ...state,
           progres: 1,
           title: 'Gás',
           gas: action.payload ? action.payload : state.gas,
+          total,
         };
+      }
 
-      case 2:
+      case 2: {
+        const { eletric, gas } = state;
+        const total = action.payload.value + eletric.co2 + gas.co2;
+
         return {
           ...state,
           progres: 2,
@@ -99,8 +111,17 @@ export function Recalculation() {
           personalTransport: action.payload
             ? action.payload
             : state.personalTransport,
+          total,
         };
-      case 3:
+      }
+      case 3: {
+        const { eletric, gas, personalTransport } = state;
+        const total =
+          action.payload.value +
+          eletric.co2 +
+          gas.co2 +
+          personalTransport.value;
+
         return {
           ...state,
           progres: 3,
@@ -108,15 +129,18 @@ export function Recalculation() {
           globalTransport: action.payload
             ? action.payload
             : state.globalTransport,
+          total,
         };
+      }
       case 4: {
-        const ali = action.payload?.co2 ? action.payload.co2 : state.food.co2;
+        const { eletric, gas, personalTransport, globalTransport } = state;
+
         const total =
-          state.eletric.co2 +
-          state.gas.co2 +
-          state.personalTransport.value +
-          state.globalTransport.value +
-          ali;
+          action.payload.co2 +
+          eletric.co2 +
+          gas.co2 +
+          personalTransport.value +
+          globalTransport.value;
 
         return {
           ...state,

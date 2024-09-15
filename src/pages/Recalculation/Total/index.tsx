@@ -4,6 +4,7 @@ import { Box, Center, VStack } from 'native-base';
 
 import { Button } from '@/components/forms/Button';
 import { Payment } from '@/components/template/Payment';
+import { _title } from '@/styles/sizes';
 import { color } from '@/styles/theme';
 import { calculatorCo2ToTree } from '@/utils/unidades';
 
@@ -63,7 +64,13 @@ export function Total({ item, clear }: T) {
               TreepyCashes
             </S.title>
 
-            <S.title style={{ fontFamily: 'black', color: color.green[100] }}>
+            <S.title
+              style={{
+                fontFamily: 'black',
+                fontSize: _title + 10,
+                color: color.green[100],
+              }}
+            >
               {calculatorCo2ToTree(item.total)}
             </S.title>
           </Center>

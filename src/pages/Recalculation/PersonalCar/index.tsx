@@ -161,7 +161,7 @@ export function PersonalCar({ goBack, setItem, getItem, next }: I) {
                 <Box>
                   <Selection
                     itemSelected={setGas}
-                    placeholder="Potência do motor"
+                    placeholder="Tipo de combustível"
                     itens={typeGas.slice(0, 2)}
                   />
                 </Box>

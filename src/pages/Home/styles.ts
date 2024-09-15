@@ -34,7 +34,7 @@ export const box = styled.View`
   padding: 10px;
   height: ${hightPercent('30')}px;
   justify-content: center;
-  border-radius: 10;
+  border-radius: 10px;
 `;
 
 export const boxF = styled.View`
