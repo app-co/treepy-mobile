@@ -2,7 +2,8 @@
 import { api } from '@/services/api';
 
 import { IMetricas } from './interface';
-import { TLogin } from './types';
+import { schemaRegisterUser } from './schemas';
+import { TLogin, TRegisteruser } from './types';
 
 export class UserFetch {
   async signIn(params: TLogin) {
@@ -40,5 +41,12 @@ export class UserFetch {
     };
 
     return rs as IMetricas;
+  }
+
+  async registerUser(obj: TRegisteruser) {
+    schemaRegisterUser.parse(obj);
+    const { data } = await api.post('/user', obj);
+
+    return data;
   }
 }

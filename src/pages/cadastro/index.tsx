@@ -1,17 +1,21 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { Box, Center, Image, VStack } from 'native-base';
+import { Box, Center, Checkbox, Image, VStack } from 'native-base';
 
 import bg from '@/assets/Login Mobile.png';
 import { LogoSvg } from '@/assets/svgs/logo';
 import { Button } from '@/components/forms/Button';
 import { FormInput } from '@/components/forms/FormInput';
 import { Line } from '@/components/Line';
+import { useRegisterUer } from '@/hooks/user/mutation';
+import { schemaRegisterUser } from '@/hooks/user/schemas';
+import { TRegisteruser } from '@/hooks/user/types';
 import { _title, hightPercent } from '@/styles/sizes';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
 
 import * as S from './styles';
@@ -21,7 +25,20 @@ export function Cadastro() {
   const {
     control,
     formState: { errors },
-  } = useForm();
+    handleSubmit,
+  } = useForm<TRegisteruser>({
+    resolver: zodResolver(schemaRegisterUser),
+  });
+
+  const { mutateAsync, isLoading } = useRegisterUer();
+
+  console.log(errors);
+
+  const submit = React.useCallback(async (obj: TRegisteruser) => {
+    try {
+      // await mutateAsync(obj);
+    } catch (error) { }
+  }, []);
 
   return (
     <S.Container>
@@ -56,11 +73,11 @@ export function Cadastro() {
               <S.title style={{ fontSize: _title + 10 }}>Cadastro</S.title>
             </Center>
             <FormInput
-              name="nome"
+              name="full_name"
               control={control}
-              error={errors.nome}
+              error={errors.full_name}
               placeholder="Digite seu nome completo"
-              label="E-mail"
+              label="Nome"
             />
             <FormInput
               name="email"
@@ -75,7 +92,7 @@ export function Cadastro() {
             <FormInput
               name="password"
               control={control}
-              error={errors.email}
+              error={errors.password}
               placeholder="Digite aqui sua senha"
               label="Senha"
             />
@@ -88,14 +105,14 @@ export function Cadastro() {
               label="Confirma senha"
             />
 
-            <TouchableOpacity>
-              <S.sub>Esqueci minha senha</S.sub>
-            </TouchableOpacity>
+            <Checkbox value="termos">
+              <S.tex>Li e aceito os termos de uso</S.tex>
+            </Checkbox>
 
             <Line />
 
             <Box style={{ gap: 15 }}>
-              <Button />
+              <Button load={isLoading} onPress={handleSubmit(submit)} />
               <Button
                 onPress={() => navigation.goBack()}
                 styleType="border"

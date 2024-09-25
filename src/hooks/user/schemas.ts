@@ -11,3 +11,21 @@ export const schemaLogin = z.object({
     .string({ message: '* obrigatório' })
     .min(6, 'mínimo de seis digitos'),
 });
+
+export const schemaRegisterUser = z
+  .object({
+    full_name: z.string({ message: '* obrigatório' }),
+    email: z.string({ message: '* obrigatório' }),
+    password: z
+      .string({ message: '* obrigatório' })
+      .min(6, 'mínimo de seis digitos'),
+    replace_password: z
+      .string({ message: '* obrigatório' })
+      .min(6, 'mínimo de seis digitos'),
+    termos: z.boolean(),
+    notifications: z.boolean(),
+  })
+  .refine(h => h.password === h.replace_password, {
+    message: 'Senhas não conferem',
+    path: ['replace_password'],
+  });
