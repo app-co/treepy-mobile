@@ -19,6 +19,7 @@ import bgDuvidas from '@/assets/duvida.png';
 import bgFloresta from '@/assets/floresta.png';
 import bgHome from '@/assets/home.png';
 import bgLogin from '@/assets/Login Mobile.png';
+import { ToastModal } from '@/components/modals/toast';
 import { reactotron } from '@/config';
 import { Routes } from '@/routes';
 import { NavigationContainer } from '@react-navigation/native';
@@ -105,6 +106,7 @@ export default function App() {
             </GestureHandlerRootView>
           </NativeBaseProvider>
           <UnauthorizedModal />
+          <ToastModal />
           <ConnectionErrorModal />
         </AuthProvider>
       </NavigationContainer>

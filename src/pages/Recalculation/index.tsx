@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useReducer } from 'react';
 import { ScrollView } from 'react-native';
+import { useQueryClient } from 'react-query';
 
 import { Box } from 'native-base';
 
@@ -72,6 +73,7 @@ export function Recalculation() {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { refetch } = useMetricas();
+  const client = useQueryClient();
 
   function reducer(state: IState, action: IAction) {
     switch (action.step) {
@@ -231,41 +233,13 @@ export function Recalculation() {
 
   const handleSaveCalc = React.useCallback(async () => {
     const calculadora = {
-      eletricidade: {
-        item: 'Eletricidade',
-        co2: state.eletric.co2,
-        porcent: 0,
-      },
-      gas: {
-        item: 'Gás',
-        co2: state.gas.co2,
-        porcent: 0,
-      },
-      transporte_individual: {
-        item: 'Transporte Individual',
-        co2: state.personalTransport.value,
-        porcent: 0,
-      },
-      transporte_coletivo: {
-        item: 'Transporte Coletivo',
-        co2: state.globalTransport.value,
-        porcent: 0,
-      },
-      residuos: {
-        item: 'residuos',
-        co2: 0,
-        porcent: 0,
-      },
-      alimentacao: {
-        item: 'Alimentação',
-        co2: 10,
-        porcent: 10,
-      },
-      total: {
-        item: 'Total',
-        co2: state.total,
-        porcent: 0,
-      },
+      eletricidade: state.eletric.co2,
+      gas: state.gas.co2,
+      transporte_individual: state.personalTransport.value,
+      transporte_coletivo: state.globalTransport.value,
+      residuos: 0,
+      alimentacao: state.alimentacao.co2,
+      total: state.total,
     };
 
     const dt = {
@@ -273,8 +247,9 @@ export function Recalculation() {
       fk_user_id: user!.id,
     };
 
-    api.post('/calc-create', dt);
+    await api.post('/calc-create', dt);
     await refetch();
+    await client.cancelQueries('user-metricas');
 
     await api.post('/history', {
       fk_user_id: user!.id,

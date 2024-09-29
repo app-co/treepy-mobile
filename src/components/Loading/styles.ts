@@ -7,6 +7,7 @@ export const Container = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${color.greenLigh[100]};
+  width: 100%;
 `;
 
 export const title = styled.Text``;

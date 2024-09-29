@@ -22,8 +22,6 @@ export const schemaRegisterUser = z
     replace_password: z
       .string({ message: '* obrigatório' })
       .min(6, 'mínimo de seis digitos'),
-    termos: z.boolean(),
-    notifications: z.boolean(),
   })
   .refine(h => h.password === h.replace_password, {
     message: 'Senhas não conferem',

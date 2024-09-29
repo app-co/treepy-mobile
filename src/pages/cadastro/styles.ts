@@ -20,5 +20,6 @@ export const sub = styled.Text`
 `;
 
 export const tex = styled.Text`
-  font-size: ${_text} px;
+  font-size: ${_text}px;
+  color: ${color.gray[100]};
 `;

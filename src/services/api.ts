@@ -2,7 +2,6 @@
 /* eslint-disable default-case */
 import axios from 'axios';
 
-
 import ConnectionErrorModalHandler from '../components/modals/connectionErrorModal/handler';
 import InternalServerErrorModalHandler from '../components/modals/internalServerErrorModal/handler';
 import NotAllowedModalHandler from '../components/modals/notAllowedModal/handler';
@@ -10,12 +9,12 @@ import UnauthorizedModalHandler from '../components/modals/unauthorizedModal/han
 import { AppError } from './AppError';
 
 const url: { [key: string]: string } = {
-  prd: process.env.EXPO_URL_PRD,
-  tst: process.env.EXPO_URL_TST,
+  prd: 'https://treepy-server.appcom.dev',
+  tst: 'http://192.168.0.107:3333',
 };
 
 const api = axios.create({
-  baseURL: 'https://treepy-server.appcom.dev',
+  baseURL: url.prd,
 });
 
 function handleConnectionError() {
@@ -61,11 +60,6 @@ api.interceptors.response.use(
   error => {
     const repnseApi = error?.response?.data?.error;
     console.log({ repnseApi });
-    if (!error.response) {
-      handleConnectionError();
-    } else {
-      handleServerError(error);
-    }
 
     if (repnseApi) {
       return Promise.reject(new AppError(repnseApi));

@@ -45,7 +45,11 @@ export class UserFetch {
 
   async registerUser(obj: TRegisteruser) {
     schemaRegisterUser.parse(obj);
-    const { data } = await api.post('/user', obj);
+    const { data } = await api.post('/user', {
+      ...obj,
+      termos: true,
+      notifications: true,
+    });
 
     return data;
   }

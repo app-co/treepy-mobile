@@ -35,6 +35,8 @@ export function _toPtBRNumber(e: number): string {
     value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
   }
 
+  // const vl = value.replace('.', ',');
+
   return value;
 }
 

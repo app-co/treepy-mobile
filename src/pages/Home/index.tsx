@@ -8,7 +8,9 @@ import { Box, HStack } from 'native-base';
 import { OperationSvg } from '@/assets/svgs/operation';
 import { MetaChart } from '@/components/Charts/MetaChart';
 import { ImgHome } from '@/components/imgs/HomeBg';
+import { Loading } from '@/components/Loading';
 import { useAuth } from '@/contexts/auth';
+import { useUserMetricas } from '@/hooks/querys';
 import { _text, hightPercent } from '@/styles/sizes';
 
 import * as S from './styles';
@@ -23,6 +25,8 @@ interface IHistoryResponse {
 
 export function Home() {
   const { user } = useAuth();
+
+  const { data, isLoading } = useUserMetricas();
 
   const history = React.useMemo(() => {
     const rs = user?.History || [];
@@ -54,6 +58,8 @@ export function Home() {
 
     return respose;
   }, [user]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <S.Container>
