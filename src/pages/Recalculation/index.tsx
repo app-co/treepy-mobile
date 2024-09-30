@@ -38,8 +38,7 @@ export interface IVeiculoProps {
 }
 
 interface IState {
-  title: string;
-  progres: number;
+  step: number;
   eletric: { type: string; value: number; co2: number };
   gas: { type: string; value: number; co2: number };
   personalTransport: { item: IVeiculoProps[]; value: number };
@@ -58,8 +57,6 @@ type IAction =
   | { step: 6 };
 
 const initialValue = {
-  title: 'Eletricidade',
-  progres: 1,
   step: 0,
   eletric: { type: '1', value: 0, co2: 0 },
   gas: { type: '1', value: 0, co2: 0 },
@@ -78,7 +75,7 @@ export function Recalculation() {
   function reducer(state: IState, action: IAction) {
     switch (action.step) {
       case 0: {
-        const total = action.payload?.co2;
+        const total = action.payload?.co2 ?? 0;
 
         return {
           ...state,
@@ -238,7 +235,7 @@ export function Recalculation() {
       transporte_individual: state.personalTransport.value,
       transporte_coletivo: state.globalTransport.value,
       residuos: 0,
-      alimentacao: state.alimentacao.co2,
+      alimentacao: state.food.co2,
       total: state.total,
     };
 
@@ -249,7 +246,7 @@ export function Recalculation() {
 
     await api.post('/calc-create', dt);
     await refetch();
-    await client.cancelQueries('user-metricas');
+    await client.invalidateQueries('user-metricas');
 
     await api.post('/history', {
       fk_user_id: user!.id,

@@ -30,7 +30,11 @@ export function Calculadora() {
 
   return (
     <S.Container>
-      <Payment tree={3} open={openShet} closed={() => setOpenShet(false)} />
+      <Payment
+        tree={data?.meta ?? 0}
+        open={openShet}
+        closed={() => setOpenShet(false)}
+      />
       <ImgCalculadora>
         <ScrollView contentContainerStyle={{ gap: 25 }}>
           <S.content>

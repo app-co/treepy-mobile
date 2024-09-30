@@ -1,11 +1,13 @@
 import React from 'react';
 import { BarChart } from 'react-native-gifted-charts';
 
-import { format, getYear } from 'date-fns';
-import { HStack } from 'native-base';
+import { format } from 'date-fns';
+import { Center, HStack } from 'native-base';
 
 import { Folha } from '@/assets/svgs/folha';
-import { useMetricas } from '@/hooks/user/querys';
+import { Button } from '@/components/forms/Button';
+import { Payment } from '@/components/template/Payment';
+import { useUserMetricas } from '@/hooks/querys';
 import { _width, hightPercent } from '@/styles/sizes';
 import { color } from '@/styles/theme';
 
@@ -27,24 +29,21 @@ const abbreviatedMonths: string[] = [
 ];
 
 export function TreepycasheChart() {
-  const { data: metrica } = useMetricas();
+  const { data: mt, isLoading } = useUserMetricas();
+
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const char =
-    metrica?.extratoPaid
-      .filter(h => {
-        const anoCorrente = getYear(new Date());
-        return getYear(h.data) === anoCorrente;
-      })
-      .map(h => {
-        const mes = format(new Date(h.data), 'M');
-        const month = abbreviatedMonths.find((h, i) => i + 1 === Number(mes));
-        return {
-          value: h.tree,
-          color: color.greenLigh[100],
-          stackIndex: 0,
-          label: month,
-        };
-      }) ?? [];
+    mt?.pagamentos.aprovados.map(h => {
+      const mes = format(new Date(h.updated_at), 'M');
+      const month = abbreviatedMonths.find((h, i) => i + 1 === Number(mes));
+      return {
+        value: h.value,
+        color: color.greenLigh[100],
+        stackIndex: 0,
+        label: month,
+      };
+    }) ?? [];
 
   const data = abbreviatedMonths.map(h => {
     const value = char.find(p => p.label === h);
@@ -57,31 +56,51 @@ export function TreepycasheChart() {
     return dt;
   });
 
+  const tree = data.find(h => h.value > 0);
+
   return (
     <S.Container>
+      <Payment
+        tree={mt?.meta ?? 0}
+        open={isOpen}
+        closed={() => setIsOpen(false)}
+      />
       <HStack mb={4} space={2}>
         <Folha />
         <S.title>Seus TreepyCashes</S.title>
+
+        <S.title>Ano vigente</S.title>
       </HStack>
-      <BarChart
-        width={_width - 120}
-        height={hightPercent('14')}
-        dashGap={0.2}
-        yAxisTextStyle={{
-          color: color.greenLigh[100],
-          fontFamaly: 'bold',
-          fontSize: 12,
-        }}
-        xAxisLabelTextStyle={{
-          color: color.gray[100],
-          fontSize: 14,
-          fontFamaly: 'bold',
-        }}
-        rotateLabel
-        noOfSections={1}
-        data={data}
-        barWidth={20}
-      />
+
+      {tree ? (
+        <BarChart
+          width={_width - 120}
+          height={hightPercent('14')}
+          dashGap={0.2}
+          yAxisTextStyle={{
+            color: color.greenLigh[100],
+            fontFamaly: 'bold',
+            fontSize: 12,
+          }}
+          xAxisLabelTextStyle={{
+            color: color.gray[100],
+            fontSize: 14,
+            fontFamaly: 'bold',
+          }}
+          rotateLabel
+          noOfSections={1}
+          data={data}
+          barWidth={20}
+        />
+      ) : (
+        <Center style={{ gap: 20 }}>
+          <S.title>Você não possui TreepyCashes</S.title>
+          <Button
+            onPress={() => setIsOpen(true)}
+            title="Comprar TreepyCaches"
+          />
+        </Center>
+      )}
     </S.Container>
   );
 }

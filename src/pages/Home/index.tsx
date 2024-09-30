@@ -7,6 +7,7 @@ import { Box, HStack } from 'native-base';
 
 import { OperationSvg } from '@/assets/svgs/operation';
 import { MetaChart } from '@/components/Charts/MetaChart';
+import { TreepycasheChart } from '@/components/Charts/TreepycasheChart';
 import { ImgHome } from '@/components/imgs/HomeBg';
 import { Loading } from '@/components/Loading';
 import { useAuth } from '@/contexts/auth';
@@ -73,7 +74,9 @@ export function Home() {
                 <MetaChart />
               </S.box>
 
-              <S.box>{/* <TreepycasheChart /> */}</S.box>
+              <S.box>
+                <TreepycasheChart />
+              </S.box>
 
               <S.box style={{ height: hightPercent('10') }}>
                 <HStack mb={4} alignItems="center" space={3}>

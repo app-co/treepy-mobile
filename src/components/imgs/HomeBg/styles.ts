@@ -14,6 +14,6 @@ export const title = styled.Text`
 `;
 export const content = styled.View`
   margin-top: ${hightPercent('12')}px;
-  padding: 10px;
+  padding: 5px;
   gap: 15px;
 `;

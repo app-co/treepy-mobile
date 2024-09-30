@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { PieChart } from 'react-native-gifted-charts';
@@ -27,23 +28,44 @@ export function MetaChart() {
   const treepycache = metrica?.qnt_trepycaches ?? 0;
   const meta = metrica?.meta ?? 0;
 
-  const value = 0 / 1 === 'NaN' || 'Infinity' ? 0 : treepycache / meta;
+  const mt = React.useMemo(() => {
+    let value = treepycache / meta;
 
-  const porcent = value.toLocaleString('pt-BR', {
-    style: 'percent',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  });
+    if (value === 'NaN' || value === 'Infinity') {
+      value = 0;
+    }
+
+    const porcent = value.toLocaleString('pt-BR', {
+      style: 'percent',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+
+    const currentValue = Number(porcent.replace(',', '.').replace('%', ''));
+
+    const metaDecrined = Number(
+      100 - currentValue >= 0 ? 100 - currentValue : 0,
+    );
+
+    return {
+      meta,
+      currentValue,
+      porcent,
+      currentMeta: metaDecrined,
+    };
+  }, [meta, treepycache]);
+
+  console.log(mt);
 
   const data = [
     {
-      value: 1,
+      value: mt.meta ?? 0,
       color: color.greenLigh[200],
       focused: true,
       gradientCenterColor: '#167b3a',
     },
     {
-      value: meta - treepycache < 0 ? 0 : meta - treepycache,
+      value: mt.currentMeta,
       color: color.gray[300],
       gradientCenterColor: '#717171',
     },
@@ -62,7 +84,7 @@ export function MetaChart() {
             <S.title style={{ fontFamily: 'light' }}>Sua Meta</S.title>
           </HStack>
           <S.title style={{ fontFamily: 'black', fontSize: _title + 8 }}>
-            {0}
+            {metrica?.meta ?? 0}
           </S.title>
           <S.sub>TreepyCashes</S.sub>
           <S.text>por ano</S.text>
@@ -73,9 +95,9 @@ export function MetaChart() {
           donut
           showGradient
           sectionAutoFocus
-          radius={90}
-          innerRadius={60}
-          innerCircleColor="#232B5D"
+          radius={85}
+          innerRadius={70}
+          innerCircleColor="#343434"
           centerLabelComponent={() => {
             return (
               <Box style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -86,7 +108,7 @@ export function MetaChart() {
                     fontWeight: 'bold',
                   }}
                 >
-                  {porcent}
+                  {mt.porcent}
                 </S.title>
               </Box>
             );
