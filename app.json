@@ -10,7 +10,8 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1D5C41",
+      "buildNumber": "2"
     },
     "ios": {
       "supportsTablet": true,
@@ -19,9 +20,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1D5C41",
       },
       "package": "com.treepyapp.appcom",
+      "versionCode": 2,
       "permissions": [
         "android.permission.USE_BIOMETRIC",
         "android.permission.USE_FINGERPRINT",
