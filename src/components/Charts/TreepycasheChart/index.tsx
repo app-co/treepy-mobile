@@ -32,9 +32,10 @@ export function TreepycasheChart() {
   const { data: mt, isLoading } = useUserMetricas();
 
   const [isOpen, setIsOpen] = React.useState(false);
+  const pagamentos = mt?.pagamentos?.aprovados ?? []
 
   const char =
-    mt?.pagamentos.aprovados.map(h => {
+    pagamentos.map(h => {
       const mes = format(new Date(h.updated_at), 'M');
       const month = abbreviatedMonths.find((h, i) => i + 1 === Number(mes));
       return {
