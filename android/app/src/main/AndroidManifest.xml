@@ -32,6 +32,7 @@
         <data android:scheme="treepy"/>
         <data android:scheme="com.treepyapp.appcom"/>
         <data android:scheme="exp+treepy"/>
+        <data android:scheme="com.appc.treepyapp"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

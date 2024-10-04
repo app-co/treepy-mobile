@@ -109,9 +109,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.treepyapp.appcom'
+    namespace 'com.appc.treepyapp'
     defaultConfig {
-        applicationId 'com.treepyapp.appcom'
+        applicationId 'com.appc.treepyapp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2

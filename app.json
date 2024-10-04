@@ -3,26 +3,26 @@
     "name": "Treepy",
     "slug": "treepy",
     "scheme": "treepy",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#1D5C41",
-      "buildNumber": "2"
+      "backgroundColor": "#1D5C41"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.treepyapp.appcom"
+      "bundleIdentifier": "com.appc.treepyapp",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#1D5C41",
+        "backgroundColor": "#1D5C41"
       },
-      "package": "com.treepyapp.appcom",
+      "package": "com.appc.treepyapp",
       "versionCode": 2,
       "permissions": [
         "android.permission.USE_BIOMETRIC",
@@ -87,7 +87,7 @@
             }
           }
         },
-        "projectId": "3b94515b-62f6-414d-a5e1-04c2cfaa77c2"
+        "projectId": "ed3df19c-3c08-4561-a2e6-f56a55188d90"
       }
     }
   }

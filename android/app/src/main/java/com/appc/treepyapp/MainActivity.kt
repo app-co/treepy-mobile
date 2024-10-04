@@ -1,4 +1,4 @@
-package com.treepyapp.appcom
+package com.appc.treepyapp
 
 import android.os.Build
 import android.os.Bundle
