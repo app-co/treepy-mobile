@@ -6,7 +6,6 @@
     <string>developement</string>
     <key>com.apple.security.application-groups</key>
     <array>
-      <string>group.com.app-c.appGeb.onesignal</string>
       <string>group.com.appc.treepyapp.onesignal</string>
     </array>
   </dict>

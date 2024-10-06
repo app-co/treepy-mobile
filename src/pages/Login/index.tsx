@@ -170,6 +170,7 @@ export function Login() {
             error={errors.password}
             placeholder="Digite aqui sua senha"
             label="Senha"
+            secureTextEntry
           />
 
           <TouchableOpacity onPress={() => setModal(true)}>
