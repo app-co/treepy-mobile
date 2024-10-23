@@ -2,10 +2,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { ScrollView, Text } from 'react-native';
+import { Alert, ScrollView, Text } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-import { HStack, VStack } from 'native-base';
+import { Box, HStack, VStack } from 'native-base';
 
 import { useAuth } from '@/contexts/auth';
 import { color } from '@/styles/theme';
@@ -14,12 +14,36 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 
-import { Avatar, Container, Header, LogOf, Title, TitleName } from './styles';
+import { Button } from '../forms/Button';
+import { Avatar, Container, Header, TitleName } from './styles';
 
 type Props = DrawerContentComponentProps;
 
 export function DrawerContent({ ...props }: Props) {
+
+
   const { user, signOut } = useAuth();
+
+  const handleDeleteAcconut = React.useCallback(async (id: string) => {
+    console.log(id)
+
+
+  }, [])
+
+  const deleteAcconut = React.useCallback(async () => {
+    Alert.alert('Atenção', 'Você tem certeza que deseja deletar sua conta?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Deletar',
+        onPress: () => handleDeleteAcconut(user!.id),
+      },
+    ])
+  }, [])
+
+
 
   return (
     <Container>
@@ -43,9 +67,18 @@ export function DrawerContent({ ...props }: Props) {
       <ScrollView>
         <DrawerItemList {...props} />
 
-        <LogOf onPress={() => signOut()}>
-          <Title style={{ color: color.gray[200] }}>SAIR</Title>
-        </LogOf>
+        <VStack mt='6' w="200px" space={10}>
+          <Box flex={.5}>
+            <Button onPress={deleteAcconut} style={{ backgroundColor: color.orange[400] }} title='Excluir minha conta' styleType='dark' />
+          </Box>
+
+          <Box flex={.5}>
+            <Button onPress={() => signOut()} title='SAIR' />
+          </Box>
+
+
+        </VStack>
+
       </ScrollView>
     </Container>
   );

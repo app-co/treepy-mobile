@@ -9,8 +9,8 @@ import { color } from '@/styles/theme';
 export const Container = styled.View`
   flex: 1;
   padding-top: ${Platform.OS === `ios` ? getStatusBarHeight() : 15}px;
-  padding-bottom: 50px;
   background-color: ${color.green[100]};
+  padding: 20px;
 `;
 
 export const Header = styled.View`
