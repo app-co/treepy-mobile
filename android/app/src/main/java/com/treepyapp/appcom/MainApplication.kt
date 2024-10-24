@@ -1,4 +1,4 @@
-package com.appc.treepyapp
+package com.treepyapp.appcom
 
 import android.app.Application
 import android.content.res.Configuration

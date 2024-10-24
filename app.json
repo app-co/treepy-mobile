@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1D5C41"
       },
-      "package": "com.appc.treepyapp",
+      "package": "com.treepyapp.appcom",
       "versionCode": 4,
       "permissions": [
         "android.permission.USE_BIOMETRIC",
