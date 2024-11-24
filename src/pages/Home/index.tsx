@@ -28,37 +28,38 @@ export function Home() {
   const { user } = useAuth();
 
   const { data, isLoading } = useUserMetricas();
+  const history = data?.history ?? [];
 
-  const history = React.useMemo(() => {
-    const rs = user?.History || [];
+  // const history = React.useMemo(() => {
+  //   const rs = user?.History || [];
 
-    let respose: IHistoryResponse[] = [];
+  //   let respose: IHistoryResponse[] = [];
 
-    if (rs.length > 0) {
-      respose = rs
-        .map(h => {
-          const day = format(new Date(h.created_at), 'dd/MM/yy');
-          const hour = format(new Date(h.created_at), 'HH:mm');
+  //   if (rs.length > 0) {
+  //     respose = rs
+  //       .map(h => {
+  //         const day = format(new Date(h.created_at), 'dd/MM/yy');
+  //         const hour = format(new Date(h.created_at), 'HH:mm');
 
-          const date = { day, hour };
+  //         const date = { day, hour };
 
-          return {
-            ...h,
-            date,
-          };
-        })
-        .sort((a, b) => {
-          const dateA = new Date(a.created_at).getTime;
-          const dateB = new Date(b.created_at).getTime;
-          if (dateA > dateB) {
-            return 1;
-          }
-          return -1;
-        });
-    }
+  //         return {
+  //           ...h,
+  //           date,
+  //         };
+  //       })
+  //       .sort((a, b) => {
+  //         const dateA = new Date(a.created_at).getTime;
+  //         const dateB = new Date(b.created_at).getTime;
+  //         if (dateA > dateB) {
+  //           return 1;
+  //         }
+  //         return -1;
+  //       });
+  //   }
 
-    return respose;
-  }, [user]);
+  //   return respose;
+  // }, [user]);
 
   if (isLoading) return <Loading />;
 
@@ -68,6 +69,9 @@ export function Home() {
         <FlatList
           data={history}
           keyExtractor={h => h.id}
+          contentContainerStyle={{
+            paddingBottom: 100,
+          }}
           ListHeaderComponent={
             <S.content>
               <S.box>
@@ -100,8 +104,8 @@ export function Home() {
                   {h.subtitle}
                 </S.text>
                 <Box>
-                  <S.text>{h.date.day}</S.text>
-                  <S.text>{h.date.hour}</S.text>
+                  <S.text>{format(h.updated_at, 'dd/MM/yy')}</S.text>
+                  <S.text>{format(h.updated_at, 'HH:mm')}</S.text>
                 </Box>
               </HStack>
             </S.boxF>

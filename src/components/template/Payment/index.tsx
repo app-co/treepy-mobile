@@ -297,11 +297,14 @@ export function Payment({ open, tree, closed }: I) {
           ) : (
             <Box>
               <HStack alignItems="center" space={4} mt={6}>
-                <S.title>R$</S.title>
-                <S.title style={{ fontFamily: 'trin', color: color.gray[100] }}>
-                  Forma de pagamento
+                <S.title style={{ fontFamily: 'trin', color: color.greenLigh[100] }}>
+                  {amount}
                 </S.title>
               </HStack>
+
+              <S.title style={{ fontFamily: 'trin', marginTop: 10, color: color.gray[100] }}>
+                Forma de pagamento
+              </S.title>
 
               <Center mt={8}>
                 <RadioGrup
@@ -403,6 +406,8 @@ export function Payment({ open, tree, closed }: I) {
                   {pix?.qrcode && (
                     <Button title="Pix copia e coloa" styleType="border" />
                   )}
+
+                  <Button onPress={closed} title='CANCELAR' styleType='border' />
                 </Center>
               )}
               {formaPagamento === '3' && (
@@ -418,6 +423,9 @@ export function Payment({ open, tree, closed }: I) {
                       }}
                     />
                   )}
+
+                  <Button onPress={closed} title='CANCELAR' styleType='border' />
+
                 </Box>
               )}
             </Box>

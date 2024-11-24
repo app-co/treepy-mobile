@@ -1,13 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal, TouchableOpacity } from 'react-native';
+import { Modal, ScrollView, TouchableOpacity } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { Box, Center, HStack, Image, useToast, VStack } from 'native-base';
+import { Box, Center, HStack, Image, KeyboardAvoidingView, useToast, VStack } from 'native-base';
 
 import bg from '@/assets/Login Mobile.png';
-import { LogoSvg } from '@/assets/svgs/logo';
+import logo from '@/assets/logo.png';
 import { Button } from '@/components/forms/Button';
 import { FormInput } from '@/components/forms/FormInput';
 import { Input } from '@/components/forms/Input';
@@ -17,7 +17,7 @@ import { schemaLogin } from '@/hooks/user/schemas';
 import { TLogin } from '@/hooks/user/types';
 import { api } from '@/services/api';
 import { AppError } from '@/services/AppError';
-import { _title, hightPercent } from '@/styles/sizes';
+import { _canva, _title, hightPercent } from '@/styles/sizes';
 import { color } from '@/styles/theme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
@@ -85,8 +85,11 @@ export function Login() {
       });
   }, [email, toast]);
 
+  const sizeLogo = _canva + 70
+
   return (
     <S.Container>
+
       <Modal visible={modal} transparent animationType="fade">
         <Center
           style={{ gap: 10 }}
@@ -145,50 +148,54 @@ export function Login() {
         start={{ y: 1, x: 0.9 }}
         end={{ y: 1, x: 0 }}
       >
-        <Center mt={hightPercent('6')}>
-          <LogoSvg size={230} />
-        </Center>
+        <ScrollView persistentScrollbar contentContainerStyle={{ paddingBottom: 50 }} >
+          <KeyboardAvoidingView behavior='position' >
+            <Center mt="2">
+              <Image source={logo} alt='logo' w={sizeLogo * 2.65} h={sizeLogo} />
+            </Center>
 
-        <VStack space={8} p={4}>
-          <Center mt={hightPercent('3')}>
-            <S.title style={{ fontSize: _title + 10 }}>
-              Acesse sua conta
-            </S.title>
-          </Center>
-          <FormInput
-            name="email"
-            control={control}
-            error={errors.email}
-            placeholder="Digite seu email"
-            label="E-mail"
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <FormInput
-            name="password"
-            control={control}
-            error={errors.password}
-            placeholder="Digite aqui sua senha"
-            label="Senha"
-            secureTextEntry
-          />
+            <VStack space={8} p={4}>
+              <Center mt={hightPercent('3')}>
+                <S.title style={{ fontSize: _title + 10 }}>
+                  Acesse sua conta
+                </S.title>
+              </Center>
+              <FormInput
+                name="email"
+                control={control}
+                error={errors.email}
+                placeholder="Digite seu email"
+                label="E-mail"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+              <FormInput
+                name="password"
+                control={control}
+                error={errors.password}
+                placeholder="Digite aqui sua senha"
+                label="Senha"
+                secureTextEntry
+              />
 
-          <TouchableOpacity onPress={() => setModal(true)}>
-            <S.sub>Esqueci minha senha</S.sub>
-          </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModal(true)}>
+                <S.sub>Esqueci minha senha</S.sub>
+              </TouchableOpacity>
 
-          <Line />
+              <Line />
 
-          <Box style={{ gap: 15 }}>
-            <Button title="ACESSAR" onPress={handleSubmit(login)} />
-            <Button
-              onPress={() => navigation.navigate('cadastro')}
-              styleType="border"
-              title="Não tenho conta"
-            />
-          </Box>
-        </VStack>
+              <Box style={{ gap: 15 }}>
+                <Button title="ACESSAR" onPress={handleSubmit(login)} />
+                <Button
+                  onPress={() => navigation.navigate('cadastro')}
+                  styleType="border"
+                  title="Não tenho conta"
+                />
+              </Box>
+            </VStack>
+          </KeyboardAvoidingView>
+        </ScrollView>
       </LinearGradient>
-    </S.Container>
+    </S.Container >
   );
 }
