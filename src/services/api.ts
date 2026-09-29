@@ -1,70 +1,45 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable default-case */
-import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios, { type AxiosError } from "axios";
+import { AppError } from "./AppError";
 
-import ConnectionErrorModalHandler from '../components/modals/connectionErrorModal/handler';
-import InternalServerErrorModalHandler from '../components/modals/internalServerErrorModal/handler';
-import NotAllowedModalHandler from '../components/modals/notAllowedModal/handler';
-import UnauthorizedModalHandler from '../components/modals/unauthorizedModal/handler';
-import { AppError } from './AppError';
+const app = process.env.EXPO_PUBLIC_APP || "tst";
 
-const url: { [key: string]: string } = {
-  prd: 'https://treepy-server.appcom.dev',
-  tst: 'http://192.168.0.107:3333',
+const baseUrl: { [key: string]: string | undefined } = {
+    tst: "http://192.168.1.100:3333",
+    prd: process.env.EXPO_PUBLIC_API,
 };
 
+const baseURL = baseUrl[app] || baseUrl.tst;
+console.log(baseURL);
+
 const api = axios.create({
-  baseURL: url.prd,
+    baseURL: baseURL,
+    timeout: 20000,
 });
 
-function handleConnectionError() {
-  ConnectionErrorModalHandler.showModal();
-}
+api.interceptors.request.use(async (config) => {
+    const response = await AsyncStorage.getItem("vibe:session");
+    const { state } = JSON.parse(response || "{}");
 
-function handleServerError(error: any) {
-  switch (error.response.status) {
-    // case 400:
-    //   UnauthorizedModalHandler.showModal();
-    //   break;
-    case 401:
-      UnauthorizedModalHandler.showModal();
-      break;
-    case 403:
-      NotAllowedModalHandler.showModal();
-      break;
-    case 500:
-    case 503:
-      InternalServerErrorModalHandler.showModal();
-  }
-}
-
-// api.interceptors.request.use(
-//   async config => {
-//     const token = await AsyncStorage.getItem('treepy@token');
-
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-
-//     return config;
-//   },
-//   error => {
-//     return Promise.reject(error);
-//   },
-// );
+    if (state.token) {
+        config.headers.Authorization = `Bearer ${state.token}`;
+    }
+    return config;
+});
 
 api.interceptors.response.use(
-  response => {
-    return response;
-  },
-  error => {
-    const repnseApi = error?.response?.data?.error;
-    console.log({ repnseApi });
+    (response) => response,
+    (error: AxiosError) => {
+        console.log("error service api =>", error);
 
-    if (repnseApi) {
-      return Promise.reject(new AppError(repnseApi));
-    }
-    return Promise.reject(error);
-  },
+        const responseError = (error.response?.data as any)?.error;
+        if (responseError) {
+            throw new AppError(responseError);
+        }
+
+        return Promise.reject(error);
+    },
 );
+
 export { api };
+export default api;
